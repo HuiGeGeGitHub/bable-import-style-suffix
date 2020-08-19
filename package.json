@@ -1,0 +1,30 @@
+{
+  "name": "bable-import-style",
+  "version": "0.1.0",
+  "description": "Modify the suffix to get a new file reference",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@192.168.0.118:zyh/bable-import-style.git"
+  },
+  "keywords": [
+    "change",
+    "import",
+    "path",
+    "suffix"
+  ],
+  "author": "zyh",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/generator": "^7.11.0",
+    "@babel/parser": "^7.11.3",
+    "@babel/traverse": "^7.11.0",
+    "@babel/types": "^7.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.6.0"
+  }
+}

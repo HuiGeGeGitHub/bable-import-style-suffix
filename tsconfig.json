@@ -1,0 +1,31 @@
+  
+{
+    "compilerOptions": {
+      "allowSyntheticDefaultImports": true,
+      "allowUnreachableCode": false,
+      "allowUnusedLabels": false,
+      "strict": false,
+      "declaration": true,
+      "forceConsistentCasingInFileNames": true,
+      "importHelpers": true,
+      "jsx": "react",
+      "lib": ["dom", "es2018"],
+      "module": "es6",
+      "moduleResolution": "node",
+      "noEmitOnError": true,
+      "noFallthroughCasesInSwitch": true,
+      "noImplicitReturns": true,
+      "noUnusedLocals": true,
+      "pretty": true,
+      "removeComments": true,
+      "skipLibCheck": true,
+      "downlevelIteration": false,
+      "target": "es5",
+      "plugins": [
+        { "transform": "./plugins/ts-plugin-constants.ts" },
+        { "transform": "./plugins/ts-plugin-version-attribute.ts" }
+      ]
+    },
+    "exclude": ["sandbox", "lib", "es", "node_modules", "__tests__"],
+    "include": ["src"]
+  }
