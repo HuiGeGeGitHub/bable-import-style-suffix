@@ -1,6 +1,6 @@
 {
   "name": "bable-import-style",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Modify the suffix to get a new file reference",
   "main": "./src/index.js",
   "scripts": {
@@ -35,7 +35,7 @@
   },
   "babel": {
     "presets": [
-        "@babel/preset-typescript"
+      "@babel/preset-typescript"
     ]
   }
 }
