@@ -1,38 +1,33 @@
-var parser = require("@babel/parser");
-var t = require("@babel/types");
-var traverse = require("@babel/traverse").default;
-var generate = require("@babel/generator").default;
-var testStrReg = /(\.scss|\.sass)$/g;
-var relaceStr = ".css";
-var TestString = "\n    import \"../test.scss\"\n    // import \"../test2.scss\"\n    var aa = require.ensure('../haha.sass')\n    console.log('haha')\n";
-var ast = parser.parse(TestString, {
-    sourceType: "module",
-    plugins: ["jsx", "typescript"],
-});
-var visitor = {
-    VariableDeclaration: function (path) {
-        var _a, _b;
-        var node = path.node;
-        var declaration = node === null || node === void 0 ? void 0 : node.declarations[0];
-        if (declaration &&
-            (t.isIdentifier((_a = declaration === null || declaration === void 0 ? void 0 : declaration.init) === null || _a === void 0 ? void 0 : _a.callee, {
-                name: "require",
-            }) ||
-                t.isIdentifier((_b = declaration === null || declaration === void 0 ? void 0 : declaration.init.callee) === null || _b === void 0 ? void 0 : _b.object, {
+module.exports = function (babel) {
+    var t = babel.types;
+    var visitor = {
+        VariableDeclaration: function (path, config) {
+            var _a, _b, _c;
+            var node = path.node, _d = config.opts, matchSuffixArr = _d.matchSuffixArr, relaceStrSuffix = _d.relaceStrSuffix;
+            var regStr = matchSuffixArr.map(function (v) { return "\\" + v; }).join("|"), reg = new RegExp("(" + regStr + ")$", "ig");
+            var declaration = node === null || node === void 0 ? void 0 : node.declarations[0];
+            if (declaration &&
+                (t.isIdentifier((_a = declaration === null || declaration === void 0 ? void 0 : declaration.init) === null || _a === void 0 ? void 0 : _a.callee, {
                     name: "require",
-                })) &&
-            testStrReg.test(declaration === null || declaration === void 0 ? void 0 : declaration.init.arguments[0].value)) {
-            declaration.init.arguments[0].value = declaration.init.arguments[0].value.replace(testStrReg, relaceStr);
-        }
-    },
-    ImportDeclaration: function (path) {
-        var node = path.node;
-        if (node.source && testStrReg.test(node.source.value)) {
-            var value = node.source.value;
-            node.source.value = value.replace(testStrReg, relaceStr);
-        }
-    },
+                }) ||
+                    t.isIdentifier((_c = (_b = declaration === null || declaration === void 0 ? void 0 : declaration.init) === null || _b === void 0 ? void 0 : _b.callee) === null || _c === void 0 ? void 0 : _c.object, {
+                        name: "require",
+                    })) &&
+                reg.test(declaration === null || declaration === void 0 ? void 0 : declaration.init.arguments[0].value)) {
+                declaration.init.arguments[0].value = declaration.init.arguments[0].value.replace(reg, relaceStrSuffix);
+            }
+        },
+        ImportDeclaration: function (path, config) {
+            var node = path.node, _a = config.opts, matchSuffixArr = _a.matchSuffixArr, relaceStrSuffix = _a.relaceStrSuffix;
+            var regStr = matchSuffixArr.map(function (v) { return "\\" + v; }).join("|"), reg = new RegExp("(" + regStr + ")$", "ig");
+            if (node.source && reg.test(node.source.value)) {
+                var value = node.source.value;
+                node.source.value = value.replace(reg, relaceStrSuffix);
+            }
+        },
+    };
+    return {
+        name: "bable-import-style-suffix",
+        visitor: visitor,
+    };
 };
-traverse(ast, visitor);
-var code = generate(ast, {}, TestString).code;
-console.log(code);
