@@ -1,5 +1,5 @@
 {
-  "name": "bable-import-style",
+  "name": "bable-import-style-suffix",
   "version": "1.0.0",
   "description": "Modify the suffix to get a new file reference",
   "main": "./src/index.js",
