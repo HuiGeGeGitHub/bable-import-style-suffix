@@ -1,6 +1,4 @@
-import { config } from "process"
-
-const testVisitor: any = require("../index")
+const testVisitor = require("../index")
 const types = require("@babel/types")
 const parser = require("@babel/parser")
 const { default: traverse } = require("@babel/traverse")
